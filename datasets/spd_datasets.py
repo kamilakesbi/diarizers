@@ -150,15 +150,20 @@ def get_simsamu_files(path_to_simsamu):
 
 def get_voxconverse_files(path_to_voxconverse):
 
-    rttm_files = {
-        "dev": glob.glob(path_to_voxconverse + "/voxconverse/dev/*.rttm"),
-        "test": glob.glob(path_to_voxconverse + "/voxconverse/test/*.rttm"),
-    }
-
     audio_files = {
         "dev": glob.glob(path_to_voxconverse + "/voxconverse/audio/*.wav"),
         "test": glob.glob(path_to_voxconverse + "/voxconverse/voxconverse_test_wav/*.wav"),
     }
+
+    rttm_files = {
+        "dev": [],
+        "test": [],
+    }
+
+    for subset in audio_files:
+        for file in audio_files[subset]:
+            file = file.split("/")[-1].split(".")[0]
+            rttm_files[subset].append(path_to_voxconverse + "/voxconverse/{}/{}.rttm".format(subset,file))
 
     return audio_files, rttm_files
 
